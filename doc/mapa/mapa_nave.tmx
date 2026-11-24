@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="16">
+  <tileset firstgid="1" name="tileset_nave" tilewidth="32" tileheight="32" tilecount="9" columns="9">
+    <image source="tileset_nave.png" width="288" height="32"/>
+    <tile id="0">
+      <properties>
+        <property name="collides" type="bool" value="true"/>
+      </properties>
+    </tile>
+  </tileset>
+  <layer id="1" name="Suelo" width="40" height="25">
+    <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,3,3,3,3,3,3,3,3,3,3,3,3,0,4,4,4,4,4,4,4,4,4,4,4,4,0,5,5,5,5,5,5,5,5,5,5,5,5,0,
+0,0,0,0,0,0,9,9,9,0,0,0,0,0,0,0,0,0,0,9,9,9,0,0,0,0,0,0,0,0,0,0,9,9,9,0,0,0,0,0,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,
+0,0,0,0,0,0,9,9,9,0,0,0,0,0,0,0,0,0,0,9,9,9,0,0,0,0,0,0,0,0,0,0,9,9,9,0,0,0,0,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,6,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+  </layer>
+  <layer id="2" name="Paredes" width="40" height="25">
+    <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+  </layer>
+  <objectgroup id="3" name="Objetos">
+    <object id="1" name="REACTOR" x="32" y="32" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="REACTOR"/>
+      </properties>
+    </object>
+    <object id="2" name="PUENTE" x="448" y="32" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="PUENTE"/>
+      </properties>
+    </object>
+    <object id="3" name="SOPORTE VITAL" x="864" y="32" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="SOPORTE VITAL"/>
+      </properties>
+    </object>
+    <object id="4" name="MOTORES" x="32" y="512" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="MOTORES"/>
+      </properties>
+    </object>
+    <object id="5" name="COMUNICACIONES" x="448" y="512" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="COMUNICACIONES"/>
+      </properties>
+    </object>
+    <object id="6" name="ENFERMERIA" x="864" y="512" width="384" height="256">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="ENFERMERIA"/>
+      </properties>
+    </object>
+    <object id="7" name="PASILLO CENTRAL" x="32" y="320" width="1216" height="160">
+      <properties>
+        <property name="type" value="room"/>
+        <property name="nombre" value="PASILLO CENTRAL"/>
+      </properties>
+    </object>
+    <object id="8" name="Intercom Puente" x="720.0" y="182.4" width="32" height="32">
+      <ellipse/>
+      <properties>
+        <property name="type" value="intercom"/>
+        <property name="roomZone" value="PUENTE"/>
+      </properties>
+    </object>
+    <object id="9" name="Intercom Comunicaciones" x="528.0" y="580.48" width="32" height="32">
+      <ellipse/>
+      <properties>
+        <property name="type" value="intercom"/>
+        <property name="roomZone" value="COMUNICACIONES"/>
+      </properties>
+    </object>
+    <object id="10" name="consola-reactor" x="208.0" y="144.0" width="32" height="32">
+      <properties>
+        <property name="id" value="consola-reactor"/>
+        <property name="roomZone" value="REACTOR"/>
+      </properties>
+    </object>
+    <object id="11" name="consola-soporte" x="1040.0" y="144.0" width="32" height="32">
+      <properties>
+        <property name="id" value="consola-soporte"/>
+        <property name="roomZone" value="SOPORTE VITAL"/>
+      </properties>
+    </object>
+    <object id="12" name="consola-motores" x="208.0" y="624.0" width="32" height="32">
+      <properties>
+        <property name="id" value="consola-motores"/>
+        <property name="roomZone" value="MOTORES"/>
+      </properties>
+    </object>
+    <object id="13" name="consola-radio" x="720.0" y="688.0" width="32" height="32">
+      <properties>
+        <property name="id" value="consola-radio"/>
+        <property name="roomZone" value="COMUNICACIONES"/>
+      </properties>
+    </object>
+    <object id="14" name="manual-puente" x="624.0" y="80.0" width="32" height="32">
+      <properties>
+        <property name="id" value="manual-puente"/>
+        <property name="roomZone" value="PUENTE"/>
+      </properties>
+    </object>
+    <object id="15" name="spawn" x="1056.0" y="640.0">
+      <properties>
+        <property name="type" value="spawn"/>
+      </properties>
+    </object>
+  </objectgroup>
+</map>
