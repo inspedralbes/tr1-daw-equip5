@@ -33,6 +33,11 @@ function embarcar() {
   user.color = color.value
 
   socket.connect()
+
+  socket.once('connect', () => {
+    user.id = socket.id
+  })
+  
   socket.emit('client:hello', { name: user.name, avatar: user.color })
 
   router.push('/hangar')
