@@ -15,19 +15,130 @@
  "tilesets": [
   {
    "firstgid": 1,
-   "source": "tileset-nave.tsx"
+   "name": "tileset-nave",
+   "tilewidth": 32,
+   "tileheight": 32,
+   "tilecount": 20,
+   "columns": 4,
+   "image": "../tiles/tileset-nave.png",
+   "imagewidth": 128,
+   "imageheight": 160,
+   "margin": 0,
+   "spacing": 0
   },
   {
    "firstgid": 21,
-   "source": "consola.tsx"
+   "name": "consola",
+   "tilewidth": 32,
+   "tileheight": 32,
+   "tilecount": 2,
+   "columns": 2,
+   "image": "../objetos/consola.png",
+   "imagewidth": 64,
+   "imageheight": 32,
+   "margin": 0,
+   "spacing": 0,
+   "tiles": [
+    {
+     "id": 0,
+     "animation": [
+      {
+       "tileid": 0,
+       "duration": 500
+      },
+      {
+       "tileid": 1,
+       "duration": 500
+      }
+     ]
+    }
+   ]
   },
   {
    "firstgid": 23,
-   "source": "boton-intercom.tsx"
+   "name": "boton-intercom",
+   "tilewidth": 32,
+   "tileheight": 32,
+   "tilecount": 2,
+   "columns": 2,
+   "image": "../objetos/boton-intercom.png",
+   "imagewidth": 64,
+   "imageheight": 32,
+   "margin": 0,
+   "spacing": 0,
+   "tiles": [
+    {
+     "id": 0,
+     "animation": [
+      {
+       "tileid": 0,
+       "duration": 2000
+      },
+      {
+       "tileid": 1,
+       "duration": 150
+      }
+     ]
+    }
+   ]
   },
   {
    "firstgid": 25,
-   "source": "objetos-decor.tsx"
+   "name": "objetos-decor",
+   "tilewidth": 32,
+   "tileheight": 32,
+   "tilecount": 8,
+   "columns": 0,
+   "tiles": [
+    {
+     "id": 0,
+     "image": "../objetos/servidor.png",
+     "imagewidth": 64,
+     "imageheight": 32
+    },
+    {
+     "id": 1,
+     "image": "../objetos/rack.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    },
+    {
+     "id": 2,
+     "image": "../objetos/rejilla-ventilacion.png",
+     "imagewidth": 96,
+     "imageheight": 32
+    },
+    {
+     "id": 3,
+     "image": "../objetos/franja-peligro.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    },
+    {
+     "id": 4,
+     "image": "../objetos/extintor.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    },
+    {
+     "id": 5,
+     "image": "../objetos/senal-radiacion.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    },
+    {
+     "id": 6,
+     "image": "../objetos/senal-peligro.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    },
+    {
+     "id": 7,
+     "image": "../objetos/panel-energia.png",
+     "imagewidth": 32,
+     "imageheight": 32
+    }
+   ]
   }
  ],
  "layers": [

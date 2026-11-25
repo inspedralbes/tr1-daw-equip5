@@ -247,12 +247,42 @@ def obj_xml(o):
         return f"  <object{attrs}>{body}</object>"
     return f"  <object{attrs}/>"
 
+TILESETS_TMX = f"""<tileset firstgid="{TS_NAVE}" name="tileset-nave" tilewidth="32" tileheight="32" tilecount="20" columns="4">
+  <image source="../tiles/tileset-nave.png" width="128" height="160"/>
+ </tileset>
+ <tileset firstgid="{TS_CONSOLA}" name="consola" tilewidth="32" tileheight="32" tilecount="2" columns="2">
+  <image source="../objetos/consola.png" width="64" height="32"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="500"/>
+    <frame tileid="1" duration="500"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="{TS_BOTON}" name="boton-intercom" tilewidth="32" tileheight="32" tilecount="2" columns="2">
+  <image source="../objetos/boton-intercom.png" width="64" height="32"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="2000"/>
+    <frame tileid="1" duration="150"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="{TS_DECOR}" name="objetos-decor" tilewidth="32" tileheight="32" tilecount="8" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0"><image width="64" height="32" source="../objetos/servidor.png"/></tile>
+  <tile id="1"><image width="32" height="32" source="../objetos/rack.png"/></tile>
+  <tile id="2"><image width="96" height="32" source="../objetos/rejilla-ventilacion.png"/></tile>
+  <tile id="3"><image width="32" height="32" source="../objetos/franja-peligro.png"/></tile>
+  <tile id="4"><image width="32" height="32" source="../objetos/extintor.png"/></tile>
+  <tile id="5"><image width="32" height="32" source="../objetos/senal-radiacion.png"/></tile>
+  <tile id="6"><image width="32" height="32" source="../objetos/senal-peligro.png"/></tile>
+  <tile id="7"><image width="32" height="32" source="../objetos/panel-energia.png"/></tile>
+ </tileset>"""
+
 tmx = f"""<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="{MAP_W}" height="{MAP_H}" tilewidth="{TILE}" tileheight="{TILE}" infinite="0" nextlayerid="5" nextobjectid="{next_id}">
- <tileset firstgid="{TS_NAVE}" source="tileset-nave.tsx"/>
- <tileset firstgid="{TS_CONSOLA}" source="consola.tsx"/>
- <tileset firstgid="{TS_BOTON}" source="boton-intercom.tsx"/>
- <tileset firstgid="{TS_DECOR}" source="objetos-decor.tsx"/>
+ {TILESETS_TMX}
  <layer id="1" name="suelo" width="{MAP_W}" height="{MAP_H}">
   <data encoding="csv">
 {csv_layer(suelo)}
@@ -295,10 +325,40 @@ tiled_json = {
     "type": "map", "version": "1.10", "tiledversion": "1.11.0",
     "infinite": False, "nextlayerid": 5, "nextobjectid": next_id,
     "tilesets": [
-        {"firstgid": TS_NAVE, "source": "tileset-nave.tsx"},
-        {"firstgid": TS_CONSOLA, "source": "consola.tsx"},
-        {"firstgid": TS_BOTON, "source": "boton-intercom.tsx"},
-        {"firstgid": TS_DECOR, "source": "objetos-decor.tsx"},
+        {
+            "firstgid": TS_NAVE, "name": "tileset-nave",
+            "tilewidth": 32, "tileheight": 32, "tilecount": 20, "columns": 4,
+            "image": "../tiles/tileset-nave.png", "imagewidth": 128, "imageheight": 160,
+            "margin": 0, "spacing": 0,
+        },
+        {
+            "firstgid": TS_CONSOLA, "name": "consola",
+            "tilewidth": 32, "tileheight": 32, "tilecount": 2, "columns": 2,
+            "image": "../objetos/consola.png", "imagewidth": 64, "imageheight": 32,
+            "margin": 0, "spacing": 0,
+            "tiles": [{"id": 0, "animation": [{"tileid": 0, "duration": 500}, {"tileid": 1, "duration": 500}]}],
+        },
+        {
+            "firstgid": TS_BOTON, "name": "boton-intercom",
+            "tilewidth": 32, "tileheight": 32, "tilecount": 2, "columns": 2,
+            "image": "../objetos/boton-intercom.png", "imagewidth": 64, "imageheight": 32,
+            "margin": 0, "spacing": 0,
+            "tiles": [{"id": 0, "animation": [{"tileid": 0, "duration": 2000}, {"tileid": 1, "duration": 150}]}],
+        },
+        {
+            "firstgid": TS_DECOR, "name": "objetos-decor",
+            "tilewidth": 32, "tileheight": 32, "tilecount": 8, "columns": 0,
+            "tiles": [
+                {"id": 0, "image": "../objetos/servidor.png", "imagewidth": 64, "imageheight": 32},
+                {"id": 1, "image": "../objetos/rack.png", "imagewidth": 32, "imageheight": 32},
+                {"id": 2, "image": "../objetos/rejilla-ventilacion.png", "imagewidth": 96, "imageheight": 32},
+                {"id": 3, "image": "../objetos/franja-peligro.png", "imagewidth": 32, "imageheight": 32},
+                {"id": 4, "image": "../objetos/extintor.png", "imagewidth": 32, "imageheight": 32},
+                {"id": 5, "image": "../objetos/senal-radiacion.png", "imagewidth": 32, "imageheight": 32},
+                {"id": 6, "image": "../objetos/senal-peligro.png", "imagewidth": 32, "imageheight": 32},
+                {"id": 7, "image": "../objetos/panel-energia.png", "imagewidth": 32, "imageheight": 32},
+            ],
+        },
     ],
     "layers": [
         {"id": 1, "name": "suelo", "type": "tilelayer", "width": MAP_W, "height": MAP_H,
