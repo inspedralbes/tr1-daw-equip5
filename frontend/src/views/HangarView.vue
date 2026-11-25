@@ -41,7 +41,7 @@ function crearNave() {
   // timeout(5000): si el servidor no responde en 5 s, el callback recibe un error
   socket
     .timeout(5000)
-    .emit('client:createRoom', { name: nombreLimpio.value }, (err, respuesta) => {
+    .emit('lobby:create-room', { name: nombreLimpio.value, mapId: 'nave' }, (err, respuesta) => {
       enviando.value = false
 
       if (err) {
@@ -49,12 +49,12 @@ function crearNave() {
         return
       }
       if (!respuesta?.ok) {
-        errorServidor.value = respuesta?.error || 'No se ha podido crear la nave'
+        errorServidor.value = respuesta?.error?.message || 'No se ha podido crear la nave'
         return
       }
 
-      // El creador pasa directamente a su nave
-      router.push(`/nave/${respuesta.room.id}`)
+      nombre.value = ''
+      tocado.value = false
     })
 }
 </script>
@@ -73,6 +73,12 @@ function crearNave() {
         <p v-if="presence.rooms.length === 0" class="vacio">
           Todavía no hay naves. ¡Crea la primera!
         </p>
+        <ul>
+          <li v-for="n in presence.rooms" :key="n.id">
+            <strong>{{ n.name }}</strong>
+            — {{ n.playerCount }}/{{ n.maxPlayers }}
+          </li>
+        </ul>
       </div>
 
       <div class="panel">
@@ -106,12 +112,33 @@ function crearNave() {
 </template>
 
 <style scoped>
-.columnas { display: flex; gap: 24px; }
-.panel { flex: 1; border: 2px solid #333; border-radius: 8px; padding: 16px; }
-.punto { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; }
-ul { list-style: none; padding: 0; }
-li { padding: 6px 0; }
-.vacio { color: #888; }
+.columnas {
+  display: flex;
+  gap: 24px;
+}
+.panel {
+  flex: 1;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+}
+.punto {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  padding: 6px 0;
+}
+.vacio {
+  color: #888;
+}
 .error {
   color: #d64545;
 }
