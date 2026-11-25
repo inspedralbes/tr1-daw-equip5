@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { socket } from '@/services/socket'
 import { useUserStore } from '@/stores/user'
@@ -13,6 +13,7 @@ const nombre = ref('')
 const tocado = ref(false)
 const enviando = ref(false)
 const errorServidor = ref('')
+const errorNave = ref('')
 
 const nombreLimpio = computed(() => nombre.value.trim())
 
@@ -25,6 +26,35 @@ const error = computed(() => {
 })
 
 const esValido = computed(() => error.value === '')
+
+// La nave en la que estoy, buscándome dentro de las listas de tripulantes.
+// Así no hace falta guardar "en qué nave estoy" por otro lado: si estoy en
+// alguna, aparezco en su lista de jugadores.
+const miNave = computed(() =>
+  presence.rooms.find((nave) => nave.jugadores.some((j) => j.id === user.id))
+)
+
+const miJugador = computed(() =>
+  miNave.value?.jugadores.find((j) => j.id === user.id)
+)
+
+const soyCapitan = computed(() => miNave.value?.capitanId === user.id)
+
+const todosListos = computed(() =>
+  miNave.value ? miNave.value.jugadores.every((j) => j.ready) : false
+)
+
+// "Esperando" / "Llena" / "En misión": el servidor manda los datos en crudo
+// (enMision, maxPlayers, jugadores) y aquí calculamos la etiqueta a mostrar.
+function estadoNave(nave) {
+  if (nave.enMision) return 'En misión'
+  if (nave.jugadores.length >= nave.maxPlayers) return 'Llena'
+  return 'Esperando'
+}
+
+function puedeUnirse(nave) {
+  return !nave.enMision && nave.jugadores.length < nave.maxPlayers
+}
 
 function crearNave() {
   tocado.value = true
@@ -53,10 +83,48 @@ function crearNave() {
         return
       }
 
-      // El creador pasa directamente a su nave
-      router.push(`/nave/${respuesta.room.id}`)
+      // No navegamos a ningún sitio: me quedo en el hangar y el panel de mi
+      // nave aparece solo, porque ya salgo en su lista de tripulantes.
+      nombre.value = ''
+      tocado.value = false
     })
 }
+
+function unirse(roomId) {
+  errorNave.value = ''
+  socket.emit('client:joinRoom', { roomId }, (respuesta) => {
+    if (!respuesta?.ok) {
+      errorNave.value = respuesta?.error || 'No se ha podido unir a la nave'
+    }
+  })
+}
+
+function marcarListo() {
+  socket.emit('client:ready', { ready: !miJugador.value?.ready })
+}
+
+function salirNave() {
+  socket.emit('client:salirNave')
+}
+
+function despegar() {
+  errorNave.value = ''
+  socket.emit('client:startGame', {}, (respuesta) => {
+    if (!respuesta?.ok) {
+      errorNave.value = respuesta?.error || 'No se ha podido despegar'
+    }
+    // si todo va bien, el servidor manda "server:gameStart" y navegamos en el listener de abajo
+  })
+}
+
+// Cuando el capitán despega, el servidor solo avisa a la tripulación de esa
+// nave (socket.join de por medio), así que cualquiera que reciba esto va a /nave/:roomId
+function irANave({ roomId }) {
+  router.push(`/nave/${roomId}`)
+}
+
+onMounted(() => socket.on('server:gameStart', irANave))
+onUnmounted(() => socket.off('server:gameStart', irANave))
 </script>
 
 <template>
@@ -73,6 +141,24 @@ function crearNave() {
         <p v-if="presence.rooms.length === 0" class="vacio">
           Todavía no hay naves. ¡Crea la primera!
         </p>
+        <ul>
+          <li v-for="nave in presence.rooms" :key="nave.id" class="nave">
+            <div>
+              <strong>🚀 {{ nave.nombre }}</strong>
+              <p class="detalle">
+                Tripulantes {{ nave.jugadores.length }}/{{ nave.maxPlayers }} · {{ estadoNave(nave) }}
+              </p>
+            </div>
+            <button
+              type="button"
+              :disabled="!puedeUnirse(nave) || miNave"
+              @click="unirse(nave.id)"
+            >
+              Unirse
+            </button>
+          </li>
+        </ul>
+        <p v-if="errorNave" class="error">{{ errorNave }}</p>
       </div>
 
       <div class="panel">
@@ -87,7 +173,35 @@ function crearNave() {
       </div>
     </section>
 
-    <section>
+    <section v-if="miNave" class="panel">
+      <h2>Nave {{ miNave.nombre }}</h2>
+      <p>{{ miNave.enMision ? 'En misión' : 'Esperando…' }}</p>
+
+      <ul>
+        <li v-for="j in miNave.jugadores" :key="j.id">
+          <span class="punto" :style="{ background: j.color }"></span>
+          {{ j.name }}
+          <em v-if="j.id === user.id">(tú)</em>
+          <span v-if="j.id === miNave.capitanId">★</span>
+          · {{ j.ready ? '✔ Listo' : 'No listo' }}
+        </li>
+        <li v-for="n in miNave.maxPlayers - miNave.jugadores.length" :key="'libre' + n" class="vacio">
+          Plaza libre
+        </li>
+      </ul>
+
+      <div class="acciones">
+        <button type="button" @click="marcarListo">
+          {{ miJugador?.ready ? 'No estoy listo' : 'Estoy listo' }}
+        </button>
+        <button type="button" @click="salirNave">Salir de la nave</button>
+        <button v-if="soyCapitan" type="button" :disabled="!todosListos" @click="despegar">
+          🚀 Despegar
+        </button>
+      </div>
+    </section>
+
+    <section v-else>
       <h2>Crear nave</h2>
 
       <form @submit.prevent="crearNave">
@@ -112,10 +226,13 @@ function crearNave() {
 ul { list-style: none; padding: 0; }
 li { padding: 6px 0; }
 .vacio { color: #888; }
+.nave { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.detalle { margin: 0; color: #888; font-size: 0.9em; }
+.acciones { display: flex; gap: 12px; margin-top: 12px; }
 .error {
   color: #d64545;
 }
-button[type='submit']:disabled {
+button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
