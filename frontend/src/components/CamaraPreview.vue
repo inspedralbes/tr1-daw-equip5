@@ -36,7 +36,6 @@ async function iniciar() {
   } catch (error) {
     estado.value = 'denegado'
     emit('denegado', error.name)
-    console.log(error.name)
   }
 }
 
