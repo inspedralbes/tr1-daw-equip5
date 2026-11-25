@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { ref, computed } from 'vue'
 import { socket } from '@/services/socket'
+import CamaraPreview from '@/components/CamaraPreview.vue'
 
 const user = useUserStore()
 const router = useRouter()
@@ -48,6 +49,7 @@ function embarcar() {
   <main class="entrada">
     <h1>Alerta Roja</h1>
 
+    <CamaraPreview />
     <form @submit.prevent="embarcar">
       <label for="nombre">Nombre del tripulante</label>
       <input id="nombre" v-model="nombre" maxlength="16" autofocus @blur="tocado = true" />
