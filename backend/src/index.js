@@ -1,9 +1,10 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import { registerLobbyHandlers } from "./handlers/lobby.js";
 
 const app = express();
-const server = http.createServer(app); // HTTP server shared by Express and Socket.IO
+const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.BACKEND_PORT || 3000;
@@ -15,14 +16,13 @@ app.get("/api/estado", (req, res) => {
 const usuarios = new Map();
 
 function enviarEstadoLobby() {
-  io.emit("server:lobbyState", {
-    users: Array.from(usuarios.values()),
-    rooms: [],
-  });
+  io.emit("server:lobbyState", { users: Array.from(usuarios.values()) });
 }
 
 io.on("connection", (socket) => {
   console.log("Conectado:", socket.id);
+
+  registerLobbyHandlers(io, socket); // ← Ilia's events: lobby:list-rooms, lobby:create-room
 
   socket.on("client:hello", (datos) => {
     const name = String(datos?.name || "")
