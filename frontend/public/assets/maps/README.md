@@ -1,9 +1,8 @@
 # Mapa de la nave · Tiled
 
-- **`nave.tmx`** — fichero fuente, para abrir/editar con [Tiled](https://www.mapeditor.org/).
-- **`nave.json`** — export en formato Tiled JSON, pensado para cargar directamente en Phaser (`this.load.tilemapTiledJSON('nave', 'assets/maps/nave.json')`).
+- **`nave.tmx`** — fichero fuente, para abrir/editar con [Tiled](https://www.mapeditor.org/). Tilesets **embebidos** (no hay `.tsx` externos): solo depende de las imágenes en `../tiles/` y `../objetos/`.
+- **`nave.json`** — export en formato Tiled JSON, pensado para cargar directamente en Phaser (`this.load.tilemapTiledJSON('nave', 'assets/maps/nave.json')`). Tilesets también embebidos.
 - **`generar_mapa.py`** — script que genera ambos ficheros a partir de una definición declarativa de salas (tamaño, puertas, decoración). Para modificar el mapa, edita este script y vuelve a ejecutarlo (`python3 generar_mapa.py`) en vez de tocar el `.tmx`/`.json` a mano.
-- **`tileset-nave.tsx`**, **`consola.tsx`**, **`boton-intercom.tsx`**, **`objetos-decor.tsx`** — tilesets externos referenciados por el mapa (no mover sin actualizar las rutas relativas a `../tiles/` y `../objetos/`).
 
 ## Tamaño y proporción
 
