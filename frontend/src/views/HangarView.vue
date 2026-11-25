@@ -69,9 +69,10 @@ function crearNave() {
   enviando.value = true
 
   // timeout(5000): si el servidor no responde en 5 s, el callback recibe un error
+  // mapId fijo: de momento solo existe el mapa "nave"
   socket
     .timeout(5000)
-    .emit('client:createRoom', { name: nombreLimpio.value }, (err, respuesta) => {
+    .emit('lobby:create-room', { name: nombreLimpio.value, mapId: 'nave' }, (err, respuesta) => {
       enviando.value = false
 
       if (err) {
@@ -79,7 +80,7 @@ function crearNave() {
         return
       }
       if (!respuesta?.ok) {
-        errorServidor.value = respuesta?.error || 'No se ha podido crear la nave'
+        errorServidor.value = respuesta?.error?.message || 'No se ha podido crear la nave'
         return
       }
 
@@ -92,28 +93,28 @@ function crearNave() {
 
 function unirse(roomId) {
   errorNave.value = ''
-  socket.emit('client:joinRoom', { roomId }, (respuesta) => {
+  socket.emit('lobby:join-room', { roomId }, (respuesta) => {
     if (!respuesta?.ok) {
-      errorNave.value = respuesta?.error || 'No se ha podido unir a la nave'
+      errorNave.value = respuesta?.error?.message || 'No se ha podido unir a la nave'
     }
   })
 }
 
 function marcarListo() {
-  socket.emit('client:ready', { ready: !miJugador.value?.ready })
+  socket.emit('lobby:ready', { ready: !miJugador.value?.ready })
 }
 
 function salirNave() {
-  socket.emit('client:salirNave')
+  socket.emit('lobby:leave-room')
 }
 
 function despegar() {
   errorNave.value = ''
-  socket.emit('client:startGame', {}, (respuesta) => {
+  socket.emit('lobby:start-game', {}, (respuesta) => {
     if (!respuesta?.ok) {
-      errorNave.value = respuesta?.error || 'No se ha podido despegar'
+      errorNave.value = respuesta?.error?.message || 'No se ha podido despegar'
     }
-    // si todo va bien, el servidor manda "server:gameStart" y navegamos en el listener de abajo
+    // si todo va bien, el servidor manda "lobby:game-started" y navegamos en el listener de abajo
   })
 }
 
@@ -123,8 +124,8 @@ function irANave({ roomId }) {
   router.push(`/nave/${roomId}`)
 }
 
-onMounted(() => socket.on('server:gameStart', irANave))
-onUnmounted(() => socket.off('server:gameStart', irANave))
+onMounted(() => socket.on('lobby:game-started', irANave))
+onUnmounted(() => socket.off('lobby:game-started', irANave))
 </script>
 
 <template>
@@ -144,7 +145,7 @@ onUnmounted(() => socket.off('server:gameStart', irANave))
         <ul>
           <li v-for="nave in presence.rooms" :key="nave.id" class="nave">
             <div>
-              <strong>🚀 {{ nave.nombre }}</strong>
+              <strong>🚀 {{ nave.name }}</strong>
               <p class="detalle">
                 Tripulantes {{ nave.jugadores.length }}/{{ nave.maxPlayers }} · {{ estadoNave(nave) }}
               </p>
@@ -174,7 +175,7 @@ onUnmounted(() => socket.off('server:gameStart', irANave))
     </section>
 
     <section v-if="miNave" class="panel">
-      <h2>Nave {{ miNave.nombre }}</h2>
+      <h2>🚀 {{ miNave.name }}</h2>
       <p>{{ miNave.enMision ? 'En misión' : 'Esperando…' }}</p>
 
       <ul>
