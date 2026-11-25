@@ -272,16 +272,18 @@ Si el client **local** surt de la zona, envia `rtc:hangup` a cadascun dels peers
 
 ## 7. Integració amb el client (resum)
 
-- Un únic mòdul `services/socket.js` crea la connexió i **tradueix els esdeveniments rebuts** en accions dels *stores* de Pinia (`usePlayersStore`, `useChatStore`, `useCallStore`, `useWorldStore`).
+- Un únic mòdul `services/socket.js` crea la connexió i **tradueix els esdeveniments rebuts** en accions dels *stores* de Pinia. L'enunciat n'exigeix com a mínim tres: l'usuari actual (`useUserStore`), la llista d'usuaris presents (`usePlayersStore`) i l'estat de les trucades (`useCallStore`). A més, l'equip hi afegeix `useChatStore` (xat) i `useGlobalStore` (vista actual, connexió, avisos i dades del resum). `useWorldStore` (estat dels objectes) és opcional i només si la temàtica el necessita.
 - Phaser **no parla directament amb Socket.IO**: emet i escolta a través d'un bus d'esdeveniments / el *store* (detall a `docs/arquitectura.md`).
 - `useCallStore` gestiona les `RTCPeerConnection` i reacciona a `zone:*` i `rtc:*`.
 
 | Esdeveniment rebut | Store que l'escolta |
 |---|---|
-| `room:*`, `player:*` | `players` |
-| `zone:*`, `proximity:update`, `rtc:*`, `media:*` | `call` |
+| ack de `room:join` (`self`), `player:correct` | `user` |
+| `room:*`, `player:moved`, `player:updated`, `media:state-changed` | `players` |
+| `zone:*`, `proximity:update`, `rtc:*` | `call` |
 | `chat:message` | `chat` |
-| `object:state` | `world` |
+| `connect`, `disconnect` | `global` |
+| `object:state` | `world` (opcional) |
 
 ---
 
