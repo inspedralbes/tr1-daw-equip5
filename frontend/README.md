@@ -49,6 +49,7 @@ hangar, nau i informe. Fem servir Vue Router per organitzar-les i controlar-ne l
 - **Càrrega diferida:** `NaveView` s'importa amb `import()`, de manera que el
   codi de la nau (la part més pesada, amb Phaser) només es descarrega quan el
   jugador hi entra.
+  
 Es fa servir `createWebHistory`, que genera URLs netes sense `#`. Perquè
 funcioni en recarregar la pàgina, nginx retorna `index.html` a les rutes que no
 existeixen com a fitxer (`try_files` a `nginx.conf`).
