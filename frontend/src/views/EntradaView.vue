@@ -30,16 +30,14 @@ function embarcar() {
   tocado.value = true
   if (!esValido.value) return // por si acaso
 
-  user.name = nombreLimpio.value
+    user.name = nombreLimpio.value
   user.color = color.value
 
-  socket.connect()
-
-  socket.once('connect', () => {
-    user.id = socket.id
-  })
-  
-  socket.emit('client:hello', { name: user.name, avatar: user.color })
+  if (socket.connected) {
+    socket.emit('user:hello', { name: user.name, avatar: user.color })
+  } else {
+    socket.connect()
+  }
 
   router.push('/hangar')
 }

@@ -1,6 +1,6 @@
 import {
   listRooms, createRoom, deleteRoomIfEmpty, summarize,
-  joinRoom, leaveRoom, setReady, startGame
+  joinRoom, leaveRoom, setReady, startGame, getRoomOfPlayer
 } from '../state/rooms.js'
 import { getUsuario } from '../state/usuarios.js'
 
@@ -58,14 +58,22 @@ export function registerLobbyHandlers(io, socket) {
     const usuario = getUsuario(socket.id)
     if (!usuario) return cb(fail('INVALID_PAYLOAD')) // no hauria de passar: cal fer client:hello abans
 
+    // NUEVO: si ya está en una nave, no se crea nada
+    if (getRoomOfPlayer(socket.id)) return cb(fail('ALREADY_IN_ROOM'))
+
     const result = createRoom({ name, mapId, maxPlayers })
     if (result.error) return cb(fail(result.error))
 
-    lastCreate = Date.now()
     const { room } = result
 
-    // Qui crea la nau hi entra directament i en passa a ser el capità
-    joinRoom(room.id, usuario)
+    // NUEVO: se comprueba el resultado; si falla, se deshace la sala creada
+    const joined = joinRoom(room.id, usuario)
+    if (joined.error) {
+      deleteRoomIfEmpty(room.id)
+      return cb(fail(joined.error))
+    }
+
+    lastCreate = Date.now()
     socket.join(room.id)
 
     cb({ ok: true, data: { room: summarize(room) } })
@@ -104,7 +112,8 @@ export function registerLobbyHandlers(io, socket) {
     setReady(socket.id, payload?.ready)
     broadcastRooms(io)
   })
-
+  io.to(result.room.id).emit('game:started', { roomId: result.room.id })
+  
   socket.on('lobby:start-game', (_payload, cb) => {
     if (typeof cb !== 'function') return
 

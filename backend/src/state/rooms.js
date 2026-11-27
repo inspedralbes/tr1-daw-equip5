@@ -95,9 +95,12 @@ export function leaveRoom(socketId) {
   room.players.delete(socketId)
 
   if (room.players.size === 0) {
-    deleteRoomIfEmpty(roomId) // respecta "permanent"
+    room.capitanId = null
+    room.enMision = false
+    const map = maps.get(room.mapId)
+    room.objects = new Map(map.objects.map((o) => [o.id, structuredClone(o)]))
+    deleteRoomIfEmpty(roomId)   // las no permanentes se borran; las permanentes quedan como nuevas
   } else if (eraCapitan) {
-    // ascendeix el següent que va entrar (el primer que queda al Map)
     room.capitanId = room.players.keys().next().value
   }
 

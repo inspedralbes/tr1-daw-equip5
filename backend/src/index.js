@@ -18,7 +18,7 @@ app.get("/api/estado", (req, res) => {
 // Manda a todo el mundo quién está conectado al hangar.
 // Las naves van aparte, por lobby:rooms-updated (ver handlers/lobby.js).
 function enviarEstadoLobby() {
-  io.emit("server:lobbyState", { users: listarUsuarios() });
+  io.emit("lobby:users-updated", { users: listarUsuarios() });
 }
 
 io.on("connection", (socket) => {
@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
   registerLobbyHandlers(io, socket); // eventos lobby:list-rooms, lobby:create-room, lobby:join-room...
 
   // El jugador dice quién es (nombre + color) al entrar en el hangar
-  socket.on("client:hello", (datos) => {
+  socket.on("user:hello", (datos) => {
     const name = String(datos?.name || "")
       .trim()
       .slice(0, 16);
