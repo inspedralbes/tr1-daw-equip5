@@ -1,24 +1,29 @@
 <script setup>
-<<<<<<< HEAD
 import { onMounted, onUnmounted, ref } from 'vue'
 import Phaser from 'phaser'
-import { bus } from '../game/bus'
-import NaveScene from '../game/NaveScene'
-
-const emit = defineEmits(['ready'])
-
+import NaveScene from '@/game/NaveScene'
+import { bus } from '@/game/bus'
+ 
+const emit = defineEmits(['ready', 'mapaCargado'])
+ 
 const contenedor = ref(null)
-
+ 
 // IMPORTANTE: variables normales, NO ref() ni reactive().
 // Vue envolvería los objetos de Phaser en proxies y daría fallos y lentitud.
 let game = null
 let observer = null
-
+ 
+function alRecibirElementos(elementos) {
+  emit('mapaCargado', elementos)
+}
+ 
 onMounted(() => {
-  if (game) return 
-
+  if (game) return // nunca dos juegos a la vez
+ 
+  // Antes de crear el juego, para no perder los avisos de la escena
   bus.on('scene:ready', () => emit('ready'))
-
+  bus.on('mapa:elementos', alRecibirElementos)
+ 
   game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: contenedor.value,
@@ -26,7 +31,7 @@ onMounted(() => {
     // tamaño y FIT lo escala al contenedor manteniendo la proporción.
     width: 1280,
     height: 800,
-    backgroundColor: '#0b0f1a',
+    backgroundColor: '#0f172a',
     pixelArt: true,
     scale: {
       mode: Phaser.Scale.FIT,
@@ -35,7 +40,7 @@ onMounted(() => {
     physics: { default: 'arcade', arcade: { debug: false } },
     scene: [NaveScene],
   })
-
+ 
   // El contenedor puede cambiar de tamaño sin que cambie la ventana
   // (p. ej. al abrir el panel de vídeo o el de tripulación) y Phaser no se entera solo.
   observer = new ResizeObserver(() => {
@@ -43,75 +48,36 @@ onMounted(() => {
   })
   observer.observe(contenedor.value)
 })
-
+ 
 onUnmounted(() => {
   observer?.disconnect()
   observer = null
-
-  game?.destroy(true) 
+ 
+  game?.destroy(true) // true = quita también el <canvas> del DOM
   game = null
-
-=======
-import { ref, onMounted, onUnmounted } from 'vue'
-import Phaser from 'phaser'
-import NaveScene from '@/game/NaveScene'
-import { bus } from '@/game/bus'
-
-const emit = defineEmits(['mapaCargado'])
-
-const contenedor = ref(null)
-let game = null
-
-function alRecibirElementos(elementos) {
-  emit('mapaCargado', elementos)
-}
-
-onMounted(() => {
-  game = new Phaser.Game({
-    type: Phaser.AUTO,
-    width: 1280,
-    height: 800,
-    backgroundColor: '#0f172a',
-    pixelArt: true,
-    parent: contenedor.value,
-    scene: [NaveScene],
-  })
-
-  bus.on('mapa:elementos', alRecibirElementos)
-})
-
-onUnmounted(() => {
-  game?.destroy(true)
->>>>>>> origin/dev
-  bus.all.clear()
+ 
+  bus.all.clear() // norma 3 del documento del bus: si no, los mensajes llegan repetidos
 })
 </script>
-
-<<<<<<< HEAD
+ 
 <template>
-  <div ref="contenedor" class="plaza-canvas" />
+  <div ref="contenedor" class="lienzo-phaser"></div>
 </template>
-
+ 
 <style scoped>
-.plaza-canvas {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.plaza-canvas :deep(canvas) {
-  display: block;
-}
-</style>
-=======
-<template><div ref="contenedor" class="lienzo-phaser"></div></template>
-
-<style scoped>
+/* Ancho flexible hasta 1280 px y alto calculado con la proporción del mapa (8:5),
+   así no depende de que el padre le dé altura. El marco es un outline (no un border)
+   para que no reste espacio al canvas. */
 .lienzo-phaser {
-  width: 1280px;
-  height: 800px;
-  border: 2px solid #334155;
+  width: 100%;
+  max-width: 1280px;
+  aspect-ratio: 8 / 5;
+  outline: 2px solid #334155;
   border-radius: 8px;
   overflow: hidden;
 }
+.lienzo-phaser :deep(canvas) {
+  display: block;
+}
 </style>
->>>>>>> origin/dev
+ 
