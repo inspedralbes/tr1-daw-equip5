@@ -13,7 +13,7 @@ const DISTANCIA_SALTO = 200
 
 // Animaciones de andar del spritesheet 'astronauta' (public/assets/README.md).
 // `reposo` es el frame que se muestra cuando el jugador está parado.
-const ANIMACIONES = {
+export const ANIMACIONES = {
   down: { clave: 'abajo', reposo: 0 },
   up: { clave: 'arriba', reposo: 4 },
   left: { clave: 'lado-a', reposo: 8 },
@@ -21,7 +21,7 @@ const ANIMACIONES = {
 }
 
 // Las animaciones son globales en Phaser: si el jugador local ya las creó, no se repiten
-function crearAnimaciones(scene) {
+export function crearAnimaciones(scene) {
   for (const { clave, reposo } of Object.values(ANIMACIONES)) {
     if (scene.anims.exists(clave)) continue
     scene.anims.create({
@@ -66,9 +66,7 @@ export default class AvataresRemotos {
   crear({ id, name, color, x, y }) {
     if (this.avatares.has(id)) return
 
-    const sprite = this.scene.add
-      .sprite(x, y, 'astronauta', ANIMACIONES.down.reposo)
-      .setDepth(10)
+    const sprite = this.scene.add.sprite(x, y, 'astronauta', ANIMACIONES.down.reposo).setDepth(10)
 
     // El traje es blanco en el spritesheet: se tiñe con el color elegido en la entrada
     if (color) sprite.setTint(Number.parseInt(color.replace('#', ''), 16))
