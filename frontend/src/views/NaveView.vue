@@ -1,8 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import PlazaCanvas from '@/components/PlazaCanvas.vue'
+import { iniciarMovimiento, detenerMovimiento } from '@/services/movimiento'
 
 const elementosMapa = ref([])
+
+onMounted(iniciarMovimiento)
+onBeforeUnmount(detenerMovimiento)
 </script>
 
 <template>
