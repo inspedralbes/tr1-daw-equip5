@@ -15,7 +15,7 @@ Aplicación web multijugador en tiempo real. Sois la tripulación de una nave av
 
 ## Prototip gràfic
 
-* [Penpot](https://design.penpot.app/?screen=viewer&file-id=3db45ae8-1dfd-81ce-8008-ffad2991b5c5&page-id=3db45ae8-1dfd-81ce-8008-ffad2991b5c6&section=interactions&index=2&share-id=8a96bef4)
+* _Pendent d'afegir (Penpot/Figma/Moqups)_
 
 ## URL de producció
 
