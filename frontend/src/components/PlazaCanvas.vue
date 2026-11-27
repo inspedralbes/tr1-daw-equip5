@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 import { onMounted, onUnmounted, ref } from 'vue'
 import Phaser from 'phaser'
 import { bus } from '../game/bus'
@@ -50,10 +51,43 @@ onUnmounted(() => {
   game?.destroy(true) 
   game = null
 
+=======
+import { ref, onMounted, onUnmounted } from 'vue'
+import Phaser from 'phaser'
+import NaveScene from '@/game/NaveScene'
+import { bus } from '@/game/bus'
+
+const emit = defineEmits(['mapaCargado'])
+
+const contenedor = ref(null)
+let game = null
+
+function alRecibirElementos(elementos) {
+  emit('mapaCargado', elementos)
+}
+
+onMounted(() => {
+  game = new Phaser.Game({
+    type: Phaser.AUTO,
+    width: 1280,
+    height: 800,
+    backgroundColor: '#0f172a',
+    pixelArt: true,
+    parent: contenedor.value,
+    scene: [NaveScene],
+  })
+
+  bus.on('mapa:elementos', alRecibirElementos)
+})
+
+onUnmounted(() => {
+  game?.destroy(true)
+>>>>>>> origin/dev
   bus.all.clear()
 })
 </script>
 
+<<<<<<< HEAD
 <template>
   <div ref="contenedor" class="plaza-canvas" />
 </template>
@@ -68,3 +102,16 @@ onUnmounted(() => {
   display: block;
 }
 </style>
+=======
+<template><div ref="contenedor" class="lienzo-phaser"></div></template>
+
+<style scoped>
+.lienzo-phaser {
+  width: 1280px;
+  height: 800px;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+</style>
+>>>>>>> origin/dev
