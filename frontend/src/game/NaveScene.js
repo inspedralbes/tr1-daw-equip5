@@ -58,6 +58,18 @@ export default class NaveScene extends Phaser.Scene {
     const inicio = spawn ?? { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
     this.jugador = new JugadorLocal(this, { x: inicio.x, y: inicio.y, paredes })
 
+    // ---------- #59: cámara que sigue al jugador ----------
+    const ancho = map.widthInPixels
+    const alto = map.heightInPixels
+
+    // El mundo de la física mide lo mismo que el mapa
+    this.physics.world.setBounds(0, 0, ancho, alto)
+
+    const camara = this.cameras.main
+    camara.setBounds(0, 0, ancho, alto) // no enseña nada fuera del mapa
+    camara.setZoom(2) // se ve la mitad del mapa, más grande
+    camara.startFollow(this.jugador.sprite, true, 0.1, 0.1) // sigue al jugador con suavidad
+
     // Siempre lo último: avisa a Vue de que ya puede mandar 'player:init'
     bus.emit('scene:ready')
   }
