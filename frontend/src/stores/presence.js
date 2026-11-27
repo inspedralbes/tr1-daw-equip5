@@ -13,7 +13,7 @@ export const usePresenceStore = defineStore('presence', {
       if (this.escuchando) return
       this.escuchando = true
 
-      socket.on('server:lobbyState', (datos) => {
+      socket.on('lobby:users-updated', (datos) => {
         this.users = datos.users
       })
       socket.on('lobby:rooms-updated', (datos) => {

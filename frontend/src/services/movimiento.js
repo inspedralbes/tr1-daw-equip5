@@ -23,7 +23,7 @@ function enviar(pos) {
   ultimoEnvio = Date.now()
 
   // volatile: si un mensaje se pierde no pasa nada, llegará el siguiente
-  socket.volatile.emit('client:move', pos)
+  socket.volatile.emit('player:move', pos)
 }
 
 function alMoverse(pos) {
