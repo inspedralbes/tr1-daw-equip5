@@ -4,6 +4,7 @@ import { bus } from './bus'
 import { crearMapa } from './mapa'
 
 import AvataresRemotos from './AvataresRemotos'
+import JugadorLocal from './JugadorLocal'
 
 export default class NaveScene extends Phaser.Scene {
   constructor() {
@@ -39,7 +40,8 @@ export default class NaveScene extends Phaser.Scene {
   }
 
   create() {
-    const { zonas, consolas, intercoms } = crearMapa(this)
+    // Ahora también recogemos paredes, spawn y map (crearMapa ya los devolvía)
+    const { zonas, consolas, intercoms, paredes, spawn, map } = crearMapa(this)
 
     const elementos = [
       ...zonas.map((zona) => ({ tipo: 'Zona', nombre: zona.nombre, jugadores: 0 })),
@@ -50,10 +52,30 @@ export default class NaveScene extends Phaser.Scene {
     bus.emit('mapa:elementos', elementos)
 
     this.remotos = new AvataresRemotos(this)
+
+    // ---------- #58: mi astronauta ----------
+    // Si el mapa no tuviera spawn, aparecería en el centro
+    const inicio = spawn ?? { x: map.widthInPixels / 2, y: map.heightInPixels / 2 }
+    this.jugador = new JugadorLocal(this, { x: inicio.x, y: inicio.y, paredes })
+
+    // ---------- #59: cámara que sigue al jugador ----------
+    const ancho = map.widthInPixels
+    const alto = map.heightInPixels
+
+    // El mundo de la física mide lo mismo que el mapa
+    this.physics.world.setBounds(0, 0, ancho, alto)
+
+    const camara = this.cameras.main
+    camara.setBounds(0, 0, ancho, alto) // no enseña nada fuera del mapa
+    camara.setZoom(2) // se ve la mitad del mapa, más grande
+    camara.startFollow(this.jugador.sprite, true, 0.1, 0.1) // sigue al jugador con suavidad
+
+    // Siempre lo último: avisa a Vue de que ya puede mandar 'player:init'
     bus.emit('scene:ready')
   }
 
   update(time, delta) {
+    this.jugador.update()
     this.remotos.update(delta)
   }
 }
