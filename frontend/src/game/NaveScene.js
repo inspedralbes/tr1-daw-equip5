@@ -3,6 +3,8 @@ import Phaser from 'phaser'
 import { bus } from './bus'
 import { crearMapa } from './mapa'
 
+import AvataresRemotos from './AvataresRemotos'
+
 export default class NaveScene extends Phaser.Scene {
   constructor() {
     super('Nave')
@@ -17,6 +19,11 @@ export default class NaveScene extends Phaser.Scene {
       frameHeight: 32,
     })
     this.load.spritesheet('boton-intercom', '/assets/objetos/boton-intercom.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    })
+
+    this.load.spritesheet('astronauta', '/assets/personajes/astronauta.png', {
       frameWidth: 32,
       frameHeight: 32,
     })
@@ -41,6 +48,12 @@ export default class NaveScene extends Phaser.Scene {
     ]
 
     bus.emit('mapa:elementos', elementos)
+
+    this.remotos = new AvataresRemotos(this)
     bus.emit('scene:ready')
+  }
+
+  update(time, delta) {
+    this.remotos.update(delta)
   }
 }
