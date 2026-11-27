@@ -112,7 +112,6 @@ export function registerLobbyHandlers(io, socket) {
     setReady(socket.id, payload?.ready)
     broadcastRooms(io)
   })
-  io.to(result.room.id).emit('game:started', { roomId: result.room.id })
   
   socket.on('lobby:start-game', (_payload, cb) => {
     if (typeof cb !== 'function') return
